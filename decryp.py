@@ -3,6 +3,7 @@ from Crypto.Protocol.KDF import PBKDF2
 from Crypto.Hash import SHA256, HMAC
 from image_load import load_image, bytes_to_array, array_to_bytes, save_array_as_image
 import json
+import os
 
 
 def derive_key(password: str, salt: bytes, dklen=32, iterations=200000):
@@ -64,10 +65,14 @@ def decrypt_image(input_path, output_path, password):
         out_arr = bytes_to_array(reconstructed, channels, size)
         
         # Simpan dengan format asli jika tersedia
-        if not output_path.lower().endswith(('.png', '.jpg', '.jpeg', '.bmp')):
+        if not output_path.lower().endswith(('.png', '.jpg', '.jpeg', '.bmp', '.tif', '.tiff')):
             output_path = output_path + original_format
+        else:
+            # Jika sudah ada extension, ganti dengan yang sesuai metadata
+            base_name = os.path.splitext(output_path)[0]
+            output_path = base_name + original_format
         
-        save_array_as_image(out_arr, output_path)
+        save_array_as_image(out_arr, output_path, original_format)
         
         return {
             'success': True,

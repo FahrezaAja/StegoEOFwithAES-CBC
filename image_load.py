@@ -30,9 +30,17 @@ def apply_image_processing(arr, mode='RGB', size=(512, 512)):
     return arr
 
 
-def save_array_as_image(arr, out_path):
+def save_array_as_image(arr, out_path, format_type=None):
+    """Simpan array sebagai gambar dengan format tertentu"""
     img = Image.fromarray(arr)
-    img.save(out_path)
+    if format_type:
+        # Gunakan format yang ditentukan
+        format_map = {'.jpg': 'JPEG', '.jpeg': 'JPEG', '.png': 'PNG', '.bmp': 'BMP', '.tif': 'TIFF', '.tiff': 'TIFF'}
+        pil_format = format_map.get(format_type.lower(), 'PNG')
+        img.save(out_path, format=pil_format)
+    else:
+        # Deteksi dari extension
+        img.save(out_path)
     return out_path
 
 
@@ -46,15 +54,3 @@ def bytes_to_array(bytes_buf, channels, size):
 
 def array_to_bytes(arr):
     return arr.tobytes()
-
-
-def to_grayscale(arr):
-    from PIL import Image
-    img = Image.fromarray(arr)
-    return np.array(img.convert('L'), dtype=np.uint8)
-
-
-def to_rgb(arr):
-    from PIL import Image
-    img = Image.fromarray(arr)
-    return np.array(img.convert('RGB'), dtype=np.uint8)
