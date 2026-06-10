@@ -12,6 +12,24 @@ def load_image(path, size=(512, 512)):
     return arr, channels, size
 
 
+def apply_image_processing(arr, mode='RGB', size=(512, 512)):
+    """Terapkan pengolahan citra: konversi mode dan resize"""
+    img = Image.fromarray(arr)
+    
+    # Resize ke 512x512
+    img = img.resize(size, Image.LANCZOS)
+    
+    # Konversi mode
+    if mode == 'RGB':
+        if img.mode != 'RGB':
+            img = img.convert('RGB')
+    elif mode == 'Grayscale':
+        img = img.convert('L')
+    
+    arr = np.array(img, dtype=np.uint8)
+    return arr
+
+
 def save_array_as_image(arr, out_path):
     img = Image.fromarray(arr)
     img.save(out_path)
