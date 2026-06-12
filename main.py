@@ -46,7 +46,7 @@ class MainMenu:
         self.root = root
         root.title('StegoCrypt — AES-CBC + EOF Steganografi')
         root.geometry('420x380')
-        root.resizable(False, False)
+        root.resizable(True, True)
         root.configure(bg=C_BG)
 
         # ── Header ──────────────────────────────────────────────────────────
@@ -114,7 +114,7 @@ class EncryptWindow:
 
         window.title('StegoCrypt — Enkripsi Gambar')
         window.geometry('760x720')
-        window.resizable(False, False)
+        window.resizable(True, True)
         window.configure(bg=C_BG)
         window.protocol('WM_DELETE_WINDOW', self._on_close)
 
@@ -212,7 +212,7 @@ class EncryptWindow:
         btn_enc.pack(pady=8, ipady=4)
 
         btn_back = tk.Button(w, text='← Kembali', command=self._on_close,
-                             bg=C_SURFACE, fg=C_SUBTEXT, relief='flat',
+                             bg=C_SURFACE, fg=C_SUBTEXT, relief='solid', bd=1,
                              font=FONT_BODY, cursor='hand2',
                              activebackground=C_BORDER, activeforeground=C_TEXT)
         btn_back.pack(pady=2)
@@ -347,7 +347,7 @@ class EncryptWindow:
 # ═══════════════════════════════════════════════════════════════════════════════
 
 class DecryptWindow:
-    CANVAS_SIZE = 512
+    CANVAS_SIZE = 300
 
     def __init__(self, window: tk.Toplevel, parent: tk.Tk):
         self.window    = window
@@ -358,7 +358,7 @@ class DecryptWindow:
 
         window.title('StegoCrypt — Dekripsi Gambar')
         window.geometry('620x760')
-        window.resizable(False, False)
+        window.resizable(True, True)
         window.configure(bg=C_BG)
         window.protocol('WM_DELETE_WINDOW', self._on_close)
 
@@ -423,7 +423,7 @@ class DecryptWindow:
 
         # Tombol kembali
         btn_back = tk.Button(w, text='← Kembali', command=self._on_close,
-                             bg=C_SURFACE, fg=C_SUBTEXT, relief='flat',
+                             bg=C_SURFACE, fg=C_SUBTEXT, relief='solid', bd=1,
                              font=FONT_BODY, cursor='hand2',
                              activebackground=C_BORDER, activeforeground=C_TEXT)
         btn_back.pack(pady=2)
