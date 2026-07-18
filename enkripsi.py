@@ -34,28 +34,9 @@ def _pkcs7_pad(data: bytes) -> bytes:
     pad_len = 16 - (len(data) % 16)  # Hitung berapa byte padding yang dibutuhkan
     return data + bytes([pad_len] * pad_len)  # Tambahkan byte padding dengan nilai = pad_len
 
-
-def _pkcs7_unpad(data: bytes) -> bytes:
-    if not data:
-        raise ValueError('Data kosong, tidak ada yang bisa di-unpad.')  # Validasi data tidak kosong
-
-    pad_len = data[-1]  # Byte terakhir menunjukkan panjang padding
-
-    # Validasi: pad_len harus antara 1 dan 16
-    if pad_len < 1 or pad_len > 16:
-        raise ValueError(f'Padding tidak valid: nilai {pad_len} di luar rentang 1-16.')
-
-    # Validasi: semua byte padding harus bernilai pad_len
-    if data[-pad_len:] != bytes([pad_len] * pad_len):
-        raise ValueError('Padding tidak valid: byte padding tidak konsisten.')
-
-    return data[:-pad_len]  # Hapus pad_len byte dari akhir data
-
-
 # ─── Fungsi Utama ──────────────────────────────────────────────────────────────
 
-def encrypt_image(src_path: str, output_path: str, password: str,
-                  cover_path: str = None) -> dict:
+def encrypt_image(src_path: str, output_path: str, password: str, cover_path: str = None) -> dict:
     tmp_path = None  # Variabel untuk path file sementara
 
     try:

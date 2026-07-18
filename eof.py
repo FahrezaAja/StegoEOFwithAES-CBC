@@ -1,5 +1,4 @@
 import struct  # Untuk packing/unpacking data biner (header numerik)
-import os      # Untuk operasi file system
 
 
 # ─── Konstanta ────────────────────────────────────────────────────────────────
@@ -111,3 +110,26 @@ def has_eof_data(file_path: str) -> bool:
         return data.rfind(EOF_MAGIC) != -1  # Cek apakah magic signature ada
     except Exception:
         return False  # Jika ada error (misal file tidak ada), kembalikan False
+
+
+def peek_format(file_path: str) -> str:
+    try:
+        with open(file_path, 'rb') as f:
+            data = f.read()
+
+        magic_pos = data.rfind(EOF_MAGIC)
+        if magic_pos == -1:
+            return '.png'  # Fallback jika tidak ditemukan
+
+        header_bytes = data[magic_pos: magic_pos + HEADER_SIZE]
+        if len(header_bytes) < HEADER_SIZE:
+            return '.png'
+
+        _, _, fmt_len, _ = struct.unpack('>8sIHH', header_bytes)
+
+        after_header = magic_pos + HEADER_SIZE
+        fmt_bytes = data[after_header: after_header + fmt_len]
+
+        return fmt_bytes.decode('utf-8')  # Contoh: '.png', '.tiff', '.jpg'
+    except Exception:
+        return '.png'  # Fallback default

@@ -493,12 +493,19 @@ class DecryptWindow:
                                    parent=self.window)
             return
 
+        # Baca format asli dari header EOF sebelum menampilkan dialog simpan
+        from eof import peek_format
+        orig_ext = peek_format(self.stego_path)  # Contoh: '.png', '.tiff', '.jpg'
+
+        fmt_map = {'.jpg': 'JPEG', '.jpeg': 'JPEG', '.png': 'PNG',
+                   '.bmp': 'BMP', '.tif': 'TIFF', '.tiff': 'TIFF'}
+        label = fmt_map.get(orig_ext, 'File')
+
         out = filedialog.asksaveasfilename(
-            title='Simpan Gambar Hasil Dekripsi',
-            defaultextension='.png',
-            initialfile='dekripsi',
-            filetypes=[('PNG', '*.png'), ('JPEG', '*.jpg'), ('BMP', '*.bmp'),
-                       ('TIFF', '*.tiff'), ('Semua', '*.*')]
+            title='Simpan Hasil Dekripsi',
+            defaultextension=orig_ext,
+            initialfile=f'dekripsi{orig_ext}',
+            filetypes=[(f'{label} files', f'*{orig_ext}'), ('Semua file', '*.*')]
         )
         if not out:
             return
