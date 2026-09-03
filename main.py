@@ -55,7 +55,7 @@ class MainMenu:
 
         tk.Label(hdr, text='🔐 StegoCrypt', font=FONT_TITLE,
                  bg=C_BG, fg=C_TEXT).pack()
-        tk.Label(hdr, text='Enkripsi & Steganografi Gambar — AES-256-CBC + EOF',
+        tk.Label(hdr, text='Enkripsi & Steganografi Gambar — AES-CBC + EOF',
                  font=FONT_SMALL, bg=C_BG, fg=C_SUBTEXT).pack(pady=4)
 
         # ── Separator ───────────────────────────────────────────────────────
